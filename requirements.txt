@@ -1,6 +1,5 @@
 pip install flask
 pip install dnspython
 pip install pymongo
-pip install flask-wtf
-pip install flask-material
-pip install jsonschema
+pip install flask-login
+pip install cryptography

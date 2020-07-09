@@ -17,6 +17,11 @@ class MongoAPI:
         output = [{item: data[item] for item in data if item != '_id'} for data in documents]
         return output
 
+    def find_one(self,key,value):
+        log.info('Read data')
+        document = self.collection.find_one({key : value})
+        return document
+
     def write(self, data):
         log.info('Writing Data')
         new_document = data
