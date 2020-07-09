@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 class MongoAPI:
     def __init__(self, collection, document, data = None):
-        self.client = MongoClient("mongodb+srv://ddmilgram:DPYutVu33y2ZofXI@cluster0-oa6bc.mongodb.net/<test>?retryWrites=true&w=majority")
+        self.client = MongoClient("mongodb+srv://ddmilgram:DPYutVu33y2ZofXI@cluster0-oa6bc.mongodb.net/<test>?retryWrites=false&w=majority")
         cursor = self.client[collection]
         self.collection = cursor[document]
         self.data = data
@@ -19,7 +19,7 @@ class MongoAPI:
 
     def write(self, data):
         log.info('Writing Data')
-        new_document = data['Document']
+        new_document = data
         response = self.collection.insert_one(new_document)
         output = {'Status': 'Successfully Inserted'}
         return output

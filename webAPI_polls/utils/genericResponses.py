@@ -9,3 +9,6 @@ def responseOK(res):
 
 def responseUP():
     return Response(response=json.dumps({"Status": "UP"}),status=200,mimetype='application/json')
+
+def validationError(msg):
+    return Response(response=json.dumps({"Validation error": msg}),status=400,mimetype='application/json')

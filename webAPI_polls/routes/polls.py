@@ -1,8 +1,8 @@
-from flask import Flask, request, json, Response
 import pymongo
+from flask import Flask, request, json, Response
 from services import dbService
-from validators import pollValidator
-from messages import genericResponses
+from utils import genericResponses
+from validators import pollValidator, pollValidatorMessages
 from . import routes
 
 @routes.route('/polls', methods=['GET'])
@@ -13,11 +13,12 @@ def mongo_read():
 @routes.route('/polls/add', methods=['POST'])
 def mongo_write():
     data = request.json
-    if pollValidator.ValidateData(data,"Document"):
+    msg = pollValidator.ValidatePoll(data)
+    if msg == pollValidatorMessages.Ok():
         response = dbService.MongoAPI("polls","polls",data).write(data)
         return genericResponses.responseOK(response)
     else:
-        return genericResponses.raiseError()
+        return genericResponses.validationError(msg)
 
 @routes.route('/polls/update', methods=['PUT'])
 def mongo_update():
