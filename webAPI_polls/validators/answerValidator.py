@@ -1,7 +1,7 @@
 from .answerValidatorMessages import *
 import datetime
 
-def ValidateProperties(data):
+def ValidateFields(data):
     if "pollid" in data and "answers" in data and "email" in data and "name" in data and len(data)==4:
         return ok()
     else:
@@ -21,8 +21,11 @@ def ValidateExpiration(date):
         return ok()
 
 def ValidateQuestionsAndAnswers(pollQuestions, answeredQuestions):
-    shared_items = {k: pollQuestions[k] for k in pollQuestions if k in answeredQuestions and answeredQuestions[k] in pollQuestions[k]}
-    if len(shared_items) == len(pollQuestions) ==len(answeredQuestions):
-        return ok()
-    else:
+    try:
+        shared_items = {k: pollQuestions[k] for k in pollQuestions if k in answeredQuestions and answeredQuestions[k] in pollQuestions[k]}
+        if len(shared_items) == len(pollQuestions) ==len(answeredQuestions):
+            return ok()
+        else:
+            return notValidAnswers()
+    except Exception as e:
         return notValidAnswers()

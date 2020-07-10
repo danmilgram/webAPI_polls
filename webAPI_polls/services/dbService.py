@@ -2,6 +2,7 @@ from flask import Flask, request, json, Response
 from pymongo import MongoClient
 import logging as log
 import datetime
+from bson import ObjectId
 
 app = Flask(__name__)
 print("connecting database...")
@@ -17,6 +18,10 @@ class MongoAPI:
         documents = self.collection.find()
         output = [{item: str(data[item]) for item in data} for data in documents]
         return output
+
+    def find_byid(self,id):
+        document = self.collection.find_one({"_id" : ObjectId(id)})
+        return document
 
     def find_one(self,key,value):
         document = self.collection.find_one({key : value})

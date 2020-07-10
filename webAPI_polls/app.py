@@ -10,6 +10,10 @@ import os
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
+#FOR TESTING
+#app.config["TESTING"] = True
+#app.config["LOGIN_DISABLED"] = True
+
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
 

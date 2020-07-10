@@ -1,5 +1,5 @@
 def notValidLoginFields():
-    return "Invalid username or password"
+    return "Login must contain username and password"
 
 def notValidSignUpFields():
     return "User must contain name, email and password"

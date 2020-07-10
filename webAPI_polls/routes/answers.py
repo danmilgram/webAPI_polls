@@ -22,10 +22,10 @@ def answers_get():
 @routes.route('/answers/add', methods=['POST'])
 def answers_post():
     data = request.json
-    msg = answerValidator.ValidateProperties(data)
+    msg = answerValidator.ValidateFields(data)
 
     if msg == answerValidatorMessages.ok():
-        poll = dbService.MongoAPI("polls").find_one("_id",data["pollid"])
+        poll = dbService.MongoAPI("polls").find_byid(data["pollid"])
         msg = answerValidator.ValidatePoll(poll)
 
         if msg == answerValidatorMessages.ok():

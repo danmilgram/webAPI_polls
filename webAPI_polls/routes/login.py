@@ -20,6 +20,7 @@ def login():
         data = request.json
         msg = loginValidator.ValidateLoginFields(data)
         if msg == loginValidatorMessages.ok():
+            print(msg)
             response = dbService.MongoAPI("users").find_one("email",data["email"])
             msg = loginValidator.UserExist(response)
             if msg == loginValidatorMessages.Exist():

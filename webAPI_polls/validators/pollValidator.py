@@ -7,7 +7,7 @@ def ValidateName(poll):
     else:
         return notValidName()
 
-def ValidateProperties(data):
+def ValidatePollFields(data):
     if "name" in data and "expiration" in data and "questions" in data and "tags" in data and len(data) == 4:
         return Ok()
     else:
@@ -39,7 +39,7 @@ def ValidateQuestions(questions):
 
 def ValidatePoll(data):
     try:
-        msg = ValidateProperties(data)
+        msg = ValidatePollFields(data)
         if msg == Ok():
             msg = ValidateDatetime(data["expiration"])
             if msg == Ok():

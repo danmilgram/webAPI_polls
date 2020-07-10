@@ -11,7 +11,7 @@ def ValidateSignUpFields(data):
         return notValidSignUpFields()
 
 def ValidateLoginFields(data):
-    if "email" and "password" in data:
+    if "email" in data and "password" in data:
         return ok()
     else:
         return notValidLoginFields()
