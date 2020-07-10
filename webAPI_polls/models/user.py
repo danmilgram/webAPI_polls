@@ -5,9 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 key = b'pRmgMa8T0INjEAfksaq2aafzoZXEuwKI7wDe4c1F8AY='
 
 class User(UserMixin):
-    def __init__(self, id, name, email, password, is_admin=True):
+    def __init__(self, id, email, password, is_admin=True):
         self.id = id
-        self.name = name
         self.email = email
         self.password = password
         self.is_admin = is_admin

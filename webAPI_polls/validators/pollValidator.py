@@ -17,7 +17,7 @@ def ValidateDatetime(date_string):
 
 def ValidateExpiration(date):
     date = datetime.datetime.strptime(date,  "%d/%m/%Y")
-    if date <= date.today():
+    if date <= datetime.datetime.today():
         return notValidExpirationDate()
     else:
         return Ok()

@@ -2,10 +2,13 @@ def ok():
     return "ok"
 
 def notValidProperties():
-    return "Answer must have pollid, user(email) and answers"
+    return "Answer must have pollid, user(email), name and answers"
 
 def notValidPoll():
     return "Poll does not exist"
+
+def expiredPoll():
+    return "Poll has already expired"
 
 def notValidUser():
     return "User does not exist"

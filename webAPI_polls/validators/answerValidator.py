@@ -1,10 +1,11 @@
 from .answerValidatorMessages import *
+import datetime
 
 def ValidateAnswer(data):
     return ok()
 
 def ValidateProperties(data):
-    if "pollid" not in data or "answers" not in data or "email" not in data:
+    if "pollid" not in data or "answers" not in data or "email" and "name" not in data:
         return notValidProperties()
     else:
         return ok()
@@ -12,6 +13,13 @@ def ValidateProperties(data):
 def ValidatePoll(data):
     if data is None:
         return notValidPoll()
+    else:
+        return ok()
+
+def ValidateExpiration(date):
+    date = datetime.datetime.strptime(date,  "%d/%m/%Y")
+    if date <= datetime.datetime.today():
+        return expiredPoll()
     else:
         return ok()
 

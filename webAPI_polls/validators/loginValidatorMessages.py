@@ -1,17 +1,17 @@
-def notValidLogin():
+def notValidLoginFields():
     return "Invalid username or password"
 
-def notValidSignUp():
+def notValidSignUpFields():
     return "User must contain name, email and password"
 
 def notValidCredentials():
     return "Users password is not correct"
 
 def ok():
-    return "Ok"
+    return "ok"
 
-def notValidEMail():
+def notExist():
+    return "Supplied email is not registered"
+
+def Exist():
     return "Supplied email is already registered"
-
-def signUpOk():
-    return "Ok"

@@ -1,7 +1,7 @@
 from flask import Flask, request, json, Response
 from pymongo import MongoClient
 import logging as log
-from bson import ObjectId
+import datetime
 
 app = Flask(__name__)
 print("connecting database...")
@@ -15,12 +15,8 @@ class MongoAPI:
 
     def read(self):
         documents = self.collection.find()
-        output = [{item: data[item] for item in data if item != '_id'} for data in documents]
+        output = [{item: str(data[item]) for item in data} for data in documents]
         return output
-
-    def find_byid(self,id):
-        document = self.collection.find_one({"_id" : ObjectId(id)})
-        return document
 
     def find_one(self,key,value):
         document = self.collection.find_one({key : value})
@@ -28,11 +24,12 @@ class MongoAPI:
 
     def find(self,key,value):
         documents = self.collection.find({key : value})
-        output = [{item: data[item] for item in data if item != '_id'} for data in documents]
+        output = [{item: str(data[item]) for item in data} for data in documents]
         return output
 
     def write(self, data):
         new_document = data
+        new_document["createdDate"] = datetime.datetime.today()
         response = self.collection.insert_one(new_document)
         output = {'Status': 'Successfully Inserted'}
         return output

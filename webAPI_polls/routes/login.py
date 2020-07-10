@@ -8,9 +8,8 @@ from . import routes
 
 def Login(data):
     email = data["email"]
-    name = data["name"]
     password = data["password"]
-    us = user.User(len(user.users) + 1, name, email, password)
+    us = user.User(len(user.users) + 1, email, password)
     login_user(us)
 
 @routes.route('/login', methods=['GET', 'POST'])
@@ -19,17 +18,17 @@ def login():
         return genericResponses.responseOK(loginValidatorMessages.ok())
     else:
         data = request.json
-        msg = loginValidator.ValidateLogin(data)
+        msg = loginValidator.ValidateLoginFields(data)
         if msg == loginValidatorMessages.ok():
-            response = dbService.MongoAPI("polls","users").find_one("email",data["email"])
-            msg = loginValidator.validateCredentials(data["password"], response["password"])
-            if msg == loginValidatorMessages.ok():
-                Login(data)
-                return genericResponses.responseOK(msg)
-            else:
-                return genericResponses.validationError(msg)
-        else:
-            return genericResponses.validationError(msg)
+            response = dbService.MongoAPI("users").find_one("email",data["email"])
+            msg = loginValidator.UserExist(response)
+            if msg == loginValidatorMessages.Exist():
+                msg = loginValidator.ValidateCredentials(data["password"], response["password"])
+                if msg == loginValidatorMessages.ok():
+                    Login(data)
+                    return genericResponses.responseOK(msg)
+
+        return genericResponses.validationError(msg)
 
 @routes.route('/logout')
 @login_required
@@ -40,19 +39,17 @@ def logout():
 @routes.route("/signup", methods=["GET", "POST"])
 def signUp():
     data = request.json
-    msg = loginValidator.ValidateSignUp(data)
-    if msg == loginValidatorMessages.signUpOk():
+    msg = loginValidator.ValidateSignUpFields(data)
+    if msg == loginValidatorMessages.ok():
         data = request.json
-        response = dbService.MongoAPI("polls","users").find_one("email",data["email"])
-        msg = loginValidator.ValidateMail(response)
-        if msg == loginValidatorMessages.ok():
+        response = dbService.MongoAPI("users").find_one("email",data["email"])
+        msg = loginValidator.UserExist(response)
+        if msg == loginValidatorMessages.notExist():
             data["password"] = user.encryptPass(data["password"].encode())
-            response = dbService.MongoAPI("polls","users",data).write(data)
+            response = dbService.MongoAPI("users").write(data)
             Login(data)
             return genericResponses.responseOK(response)
-        else:
-            return genericResponses.validationError(msg)
-    else:
-        return genericResponses.validationError(msg)
+
+    return genericResponses.validationError(msg)
 
 

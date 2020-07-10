@@ -4,29 +4,29 @@ from services import dbService
 
 from .loginValidatorMessages import *
 
-def ValidateSignUp(data):
+def ValidateSignUpFields(data):
     if "email" in data and "password" in data and "name" in data:
         return ok()
     else:
-        return notValidSignUp()
+        return notValidSignUpFields()
 
-def ValidateLogin(data):
+def ValidateLoginFields(data):
     if "email" and "password" in data:
         return ok()
     else:
-        return notValidLogin()
+        return notValidLoginFields()
 
-def ValidateCredentials(pass1, pass2):
-    if user.decryptPass(pass1) == data[pass2].encode():
+def ValidateCredentials(userpass, dbpass):
+    if userpass.encode() == user.decryptPass(dbpass):
         return ok()
     else:
         return notValidCredentials()
 
-def ValidateMail(response):
+def UserExist(response):
     if response is None:
-        return ok()
+        return notExist()
     else:
-        return notValidEMail()
+        return Exist()
 
 
 
