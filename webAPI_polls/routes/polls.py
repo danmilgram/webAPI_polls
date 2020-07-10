@@ -19,30 +19,22 @@ def polls_post():
     data = request.json
     msg = pollValidator.ValidatePoll(data)
     if msg == pollValidatorMessages.Ok():
-        response = dbService.MongoAPI("polls").write(data)
-        return genericResponses.responseOK(response)
-    else:
-        return genericResponses.validationError(msg)
+        poll = dbService.MongoAPI("polls").find_one("name",data["name"])
+        msg = pollValidator.ValidateName(poll)
+        if msg == pollValidatorMessages.Ok():
 
-@routes.route('/polls/update', methods=['PUT'])
-@login_required
-def polls_put():
-    data = request.json
-    if pollValidator.ValidateData(data,"Filter"):
-        response = dbService.MongoAPI(data).update()
-        return genericResponses.responseOK(response)
-    else:
-        return genericResponses.raiseError()
+            pollresponse = dbService.MongoAPI("polls").write(data)
 
-@routes.route('/polls/delete', methods=['DELETE'])
-@login_required
-def polls_delete():
-    data = request.json
-    if pollValidator.ValidateData(data,"Filter"):
-        response = dbService.MongoAPI(data).delete(data)
-        return genericResponses.responseOK(response)
-    else:
-        return genericResponses.raiseError()
+            for tag in data["tags"]:
+                response = dbService.MongoAPI("tags").find_one("tag",tag)
+                if response is None:
+                    newtag = {"tag":tag}
+                    response = dbService.MongoAPI("tags").write(newtag)
+
+            return genericResponses.responseOK(pollresponse)
+
+    return genericResponses.validationError(msg)
+
 
 
 

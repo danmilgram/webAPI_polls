@@ -1,5 +1,5 @@
 def notValidProp():
-    return "Poll must contain name, expiration and questions"
+    return "Poll must contain (only) name, expiration, questions and tags"
 
 def hasNoQuestion():
     return "Poll must contain at least one question"
@@ -18,4 +18,7 @@ def Ok():
 
 def Undefined():
     return "Please verify data formats"
+
+def notValidName():
+    return "Polls name is already in use by another poll"
 

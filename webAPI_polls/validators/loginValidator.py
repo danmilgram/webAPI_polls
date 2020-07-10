@@ -5,7 +5,7 @@ from services import dbService
 from .loginValidatorMessages import *
 
 def ValidateSignUpFields(data):
-    if "email" in data and "password" in data and "name" in data:
+    if "email" in data and "password" in data and "name" in data and len(data) == 3:
         return ok()
     else:
         return notValidSignUpFields()

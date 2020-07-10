@@ -1,8 +1,14 @@
 import datetime
 from .pollValidatorMessages import *
 
+def ValidateName(poll):
+    if poll is None:
+        return Ok()
+    else:
+        return notValidName()
+
 def ValidateProperties(data):
-    if "name" in data and "expiration" in data and "questions" in data:
+    if "name" in data and "expiration" in data and "questions" in data and "tags" in data and len(data) == 4:
         return Ok()
     else:
         return notValidProp()
@@ -25,7 +31,6 @@ def ValidateExpiration(date):
 def ValidateQuestions(questions):
     if len(questions) > 0:
         for question,answers in questions.items():
-            print(len(answers))
             if not(len(answers) <= 4 and len(answers) > 0):
                 return qtyAnswersExceded()
         return Ok()

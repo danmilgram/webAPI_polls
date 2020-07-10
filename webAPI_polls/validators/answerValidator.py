@@ -1,14 +1,11 @@
 from .answerValidatorMessages import *
 import datetime
 
-def ValidateAnswer(data):
-    return ok()
-
 def ValidateProperties(data):
-    if "pollid" not in data or "answers" not in data or "email" and "name" not in data:
-        return notValidProperties()
-    else:
+    if "pollid" in data and "answers" in data and "email" in data and "name" in data and len(data)==4:
         return ok()
+    else:
+        return notValidProperties()
 
 def ValidatePoll(data):
     if data is None:
