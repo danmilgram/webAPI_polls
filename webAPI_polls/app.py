@@ -4,6 +4,7 @@ from routes import *
 from utils import genericResponses
 from models import user
 from flask_login import LoginManager
+from services import dbService
 import os
 
 app = flask.Flask(__name__)
@@ -27,7 +28,6 @@ def base():
     return genericResponses.responseUP()
 
 app.register_blueprint(routes)
-
 app.run()
 
 

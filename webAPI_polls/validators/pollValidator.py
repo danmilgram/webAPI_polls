@@ -1,7 +1,7 @@
 import datetime
 from .pollValidatorMessages import *
 
-def ValidatePoperties(data):
+def ValidateProperties(data):
     if "name" in data and "expiration" in data and "questions" in data:
         return Ok()
     else:
@@ -34,7 +34,7 @@ def ValidateQuestions(questions):
 
 def ValidatePoll(data):
     try:
-        msg = ValidatePoperties(data)
+        msg = ValidateProperties(data)
         if msg == Ok():
             msg = ValidateDatetime(data["expiration"])
             if msg == Ok():
