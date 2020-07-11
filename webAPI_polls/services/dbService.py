@@ -1,10 +1,10 @@
 from flask import Flask, request, json, Response
 from pymongo import MongoClient
 import logging as log
+from utils import cryptography
 import datetime
 from bson import ObjectId
 
-app = Flask(__name__)
 print("connecting database...")
 client = MongoClient("mongodb+srv://ddmilgram:DPYutVu33y2ZofXI@cluster0-oa6bc.mongodb.net/<test>?retryWrites=false&w=majority")
 print("connection established with Mongo")

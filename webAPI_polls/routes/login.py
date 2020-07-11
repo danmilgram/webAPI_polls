@@ -2,6 +2,7 @@ from flask_login import LoginManager,login_user, logout_user, login_required,cur
 from validators import loginValidator,loginValidatorMessages
 from flask import Flask, request, json, Response
 from models import user
+from utils import cryptography
 from utils import genericResponses
 from services import dbService
 from . import routes
@@ -20,7 +21,6 @@ def login():
         data = request.json
         msg = loginValidator.ValidateLoginFields(data)
         if msg == loginValidatorMessages.ok():
-            print(msg)
             response = dbService.MongoAPI("users").find_one("email",data["email"])
             msg = loginValidator.UserExist(response)
             if msg == loginValidatorMessages.Exist():
@@ -31,7 +31,7 @@ def login():
 
         return genericResponses.validationError(msg)
 
-@routes.route('/logout')
+@routes.route('/logout', methods=["POST"])
 @login_required
 def logout():
     logout_user()
@@ -46,7 +46,7 @@ def signUp():
         response = dbService.MongoAPI("users").find_one("email",data["email"])
         msg = loginValidator.UserExist(response)
         if msg == loginValidatorMessages.notExist():
-            data["password"] = user.encryptPass(data["password"].encode())
+            data["password"] = cryptography.encrypt(data["password"].encode())
             response = dbService.MongoAPI("users").write(data)
             Login(data)
             return genericResponses.responseOK(response)

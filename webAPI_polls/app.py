@@ -11,8 +11,8 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
 #FOR TESTING
-#app.config["TESTING"] = True
-#app.config["LOGIN_DISABLED"] = True
+# app.config["TESTING"] = True
+# app.config["LOGIN_DISABLED"] = True
 
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -32,7 +32,10 @@ def base():
     return genericResponses.responseUP()
 
 app.register_blueprint(routes)
-app.run()
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', debug=True)
+
 
 
 

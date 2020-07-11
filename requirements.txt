@@ -1,6 +1,0 @@
-pip install flask
-pip install dnspython
-pip install pymongo
-pip install flask-login
-pip install cryptography
-pip install pytest

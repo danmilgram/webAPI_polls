@@ -26,14 +26,14 @@ def test_signUp_userEmailExists():
 def test_login_ok():
     data = {
     "email": "ddmilgram@gmail.com",
-    "password": "lisandro15" }
+    "password": "dancito" }
     response = requests.request('POST','http://localhost:5000/login',json=data)
     assert response.status_code == 200
 
 def test_login_badLoginFields():
     data={
     "efmailss": "ddmilgram@gmail.com",
-    "password": "lisandro15"}
+    "password": "dancito"}
     response = requests.request('POST','http://localhost:5000/login',json=data)
     assert response.text == '{"Validation error": "Login must contain username and password"}'
     assert response.status_code == 400
@@ -46,7 +46,7 @@ def test_login_notUser():
     assert response.text == '{"Validation error": "Supplied email is not registered"}'
     assert response.status_code == 400
 
-def test_login_notUser():
+def test_login_incorrectPWD():
     data={
     "email": "ddmilgram@gmail.com",
     "password": "prueba"}
@@ -55,7 +55,7 @@ def test_login_notUser():
     assert response.status_code == 400
 
 def test_logout():
-    response = requests.request('GET','http://localhost:5000/logout')
+    response = requests.request('POST','http://localhost:5000/logout')
     assert response.status_code == 200
 
 

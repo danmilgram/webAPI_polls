@@ -23,6 +23,7 @@ def ValidateExpiration(date):
 def ValidateQuestionsAndAnswers(pollQuestions, answeredQuestions):
     try:
         shared_items = {k: pollQuestions[k] for k in pollQuestions if k in answeredQuestions and answeredQuestions[k] in pollQuestions[k]}
+        print(shared_items)
         if len(shared_items) == len(pollQuestions) ==len(answeredQuestions):
             return ok()
         else:
